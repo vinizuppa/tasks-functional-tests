@@ -138,5 +138,41 @@ public class TasksTest {
 		}
 	}
 	
+	@Test
+	public void deveRemoverTarefaComSucesso() throws MalformedURLException{
+		WebDriver driver = this.acessarAplicacao();
+		
+		try {
+			//Indica ao Selenium que deve aguardar 10 segundos para realizar qualquer dessas operações
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			
+			//clicar em Add Todo
+			driver.findElement(By.id("addTodo")).click();
+			
+			//escrever descrição
+			driver.findElement(By.id("task")).sendKeys("Teste via Selenium");
+			
+			//escrever a data
+			driver.findElement(By.id("dueDate")).sendKeys("04/02/2030");
+			
+			//clicar em salvar
+			driver.findElement(By.id("saveButton")).click();
+			
+			//validar mensagem de sucesso
+			String message = driver.findElement(By.id("message")).getText();
+			Assert.assertEquals("Success!", message);
+			
+			//Remover Tarefa
+			driver.findElement(By.xpath("//a[@class='btn btn-outline-danger btn-sm']")).click();
+			
+			//validar mensagem de sucesso
+			message = driver.findElement(By.id("message")).getText();
+			Assert.assertEquals("Success!", message);
+		} finally {
+			//fechar o browser
+			driver.quit();
+		}
+	}
+	
 	
 }
